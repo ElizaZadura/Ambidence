@@ -13,6 +13,8 @@ It implements a phase-gated workflow:
 - **plan_execution** → `BuildPlan` (max 3 tasks)
 - **dynamic implementation tasks** → `FileManifests` → materialized into the generated app
 
+![Ambidence Flow](docs/media/flow.png)
+
 ---
 
 ## Documentation
