@@ -1,0 +1,42 @@
+sequenceDiagram
+  participant Main as main.py_run()
+  participant Pipe as orchestration_pipeline
+  participant FS as filesystem
+  participant Lead as engineering_lead
+  participant Domain as core_domain_engineer
+  participant UI as ui_engineer
+  participant Test as test_infra_engineer
+
+  Main->>FS: read_spec_file(spec_path)
+  Main->>Pipe: run_full_pipeline(inputs)
+  Pipe->>FS: init_artifacts_dir(artifacts/run_id)
+
+  Note over Pipe,Lead: Spine tasks from tasks.yaml
+  Pipe->>Lead: spec_intake
+  Lead->>FS: write spec_pack.json
+
+  Pipe->>Domain: design
+  Domain->>FS: write design_pack.json
+
+  Pipe->>Lead: plan_execution
+  Lead->>FS: write build_plan.json
+
+  Pipe->>FS: read build_plan.json
+
+  loop planned_tasks (BuildPlan.planned_tasks)
+    Note over Pipe,Lead: owner_agent is one of: engineering_lead/core_domain_engineer/ui_engineer/test_infra_engineer
+    Pipe->>Lead: dynamic_task_if_owner_is_lead
+    Pipe->>Domain: dynamic_task_if_owner_is_domain
+    Pipe->>UI: dynamic_task_if_owner_is_ui
+    Pipe->>Test: dynamic_task_if_owner_is_test
+    Lead->>FS: write manifests/task_id.json (FileManifest)
+    Domain->>FS: write manifests/task_id.json (FileManifest)
+    UI->>FS: write manifests/task_id.json (FileManifest)
+    Test->>FS: write manifests/task_id.json (FileManifest)
+    Pipe->>FS: append callbacks.log.jsonl
+  end
+
+  Note over Pipe,FS: Non-agent steps (pipeline code)
+  Pipe->>FS: apply_manifest_to_generated_app()
+  Pipe->>FS: ensure_python_skeleton()
+  Pipe->>FS: write run_summary.json

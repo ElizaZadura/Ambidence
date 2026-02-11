@@ -1,0 +1,26 @@
+flowchart TD
+  specFile[SpecFile spec.md] --> mainPy["main.py run()"]
+  mainPy --> artifactsDir[artifacts/run_id]
+  artifactsDir -->|write| specMd[spec.md]
+  artifactsDir -->|init| callbacks[callbacks.log.jsonl]
+
+  mainPy --> spineCrew[Spine Crew sequential]
+  spineCrew --> specIntake[spec_intake]
+  specIntake -->|output_file| specPack[spec_pack.json]
+
+  spineCrew --> design[design]
+  design -->|output_file| designPack[design_pack.json]
+
+  spineCrew --> planExec[plan_execution]
+  planExec -->|output_file| buildPlan[build_plan.json]
+
+  buildPlan --> dynLoop[For each planned_task]
+  dynLoop --> dynTask[Dynamic Task owner_agent]
+  dynTask -->|output_file| manifestJson[manifests/task_id.json]
+  dynTask -->|append_callback| callbacks
+
+  manifestJson --> apply[Apply FileManifest]
+  apply --> genApp[generated_app/]
+
+  genApp --> ensureSkeleton[Ensure baseline Python skeleton]
+  ensureSkeleton --> runSummary[run_summary.json]
