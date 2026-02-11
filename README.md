@@ -75,3 +75,7 @@ uv run crewai run
 ```
 
 This will run the crew using the virtual environment created by uv.
+
+---
+
+Ambidence is an exploration into trust, orchestration, and controlled emergence within agentic systems.
