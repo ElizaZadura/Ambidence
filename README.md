@@ -1,6 +1,17 @@
 # MultiAgentEngineering (spec-driven, phase-gated crew)
 
+> **Note:** This project is currently in an **exploratory / work-in-progress** state. While it is functional and runnable, interfaces and behaviors may change as we refine the multi-agent orchestration patterns.
+
 This project is a **spec-driven engineering pipeline** built with [crewAI](https://crewai.com).
+
+![System Flow](docs/media/flow.png)
+
+## Documentation
+
+- [Master Plan & Future Directions](docs/plan.md)
+- [Current Todo List](docs/TODO.md)
+- [Proposed Changes Summary](docs/proposed_changes_summary.txt)
+- [Reliability Checklist](docs/reliability_checklist.txt)
 
 It runs a phase-gated workflow:
 
