@@ -13,3 +13,4 @@ __pycache__/
 artifacts/
 /.markdownlint.json
 /pyproject.toml
+/_archive

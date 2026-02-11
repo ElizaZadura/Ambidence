@@ -1,24 +1,26 @@
-# MultiAgentEngineering (spec-driven, phase-gated crew)
+# Ambidence
+
+_A spec-driven, phase-gated multi-agent engineering crew_
 
 > **Note:** This project is currently in an **exploratory / work-in-progress** state. While it is functional and runnable, interfaces and behaviors may change as we refine the multi-agent orchestration patterns.
 
-This project is a **spec-driven engineering pipeline** built with [crewAI](https://crewai.com).
+Ambidence is a spec-driven engineering pipeline orchestrated with CrewAI.
 
-![System Flow](docs/media/flow.png)
+It implements a phase-gated workflow:
+
+- **spec_intake** → `SpecPack`
+- **design** → `DesignPack`
+- **plan_execution** → `BuildPlan` (max 3 tasks)
+- **dynamic implementation tasks** → `FileManifests` → materialized into the generated app
+
+---
 
 ## Documentation
 
 - [Master Plan & Future Directions](docs/plan.md)
 - [Current Todo List](docs/TODO.md)
 - [Proposed Changes Summary](docs/proposed_changes_summary.txt)
-- [Reliability Checklist](docs/reliability_checklist.txt)
-
-It runs a phase-gated workflow:
-
-- `spec_intake` → `SpecPack`
-- `design` → `DesignPack`
-- `plan_execution` → `BuildPlan` (max 3 tasks)
-- dynamic implementation tasks → `FileManifest`s → applied into an output folder
+- [Reliability Checklist](docs/reliability_checklist.md)
 
 ## Setup
 
@@ -34,6 +36,14 @@ Install dependencies:
 ```bash
 crewai install
 ```
+
+Using uv (recommended):
+
+```bash
+uv sync
+```
+
+This will create a virtual environment and install the dependencies from pyproject.toml. Respect the committed uv.lock for reproducibility.
 
 ## Running
 
@@ -55,6 +65,14 @@ From this folder:
 ```bash
 crewai run
 ```
+
+with uv:
+
+```bash
+uv run crewai run
+```
+
+This will run the crew using the virtual environment created by uv.
 
 ## Outputs (artifacts)
 
@@ -112,7 +130,7 @@ This project loads `.env` with override semantics; confirm your `.env` is correc
 
 ## Design notes
 
-- Proposed changes discussion: `docs/proposed_changes_summary.txt`
+- Proposed changes discussion: `docs/proposed_changes_summary.md`
 
 ## Summary of steps taken (high level)
 
