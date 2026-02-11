@@ -1,8 +1,13 @@
+# Environment
 .env
-__pycache__/
-.DS_Store
-/.specstory
-/artifacts
 .venv/
-.env
+
+# Python
 __pycache__/
+
+# OS
+.DS_Store
+
+# Project-specific
+.specstory/
+artifacts/
