@@ -3,3 +3,6 @@ __pycache__/
 .DS_Store
 /.specstory
 /artifacts
+.venv/
+.env
+__pycache__/
