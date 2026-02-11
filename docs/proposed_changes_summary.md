@@ -1,10 +1,12 @@
-Proposed changes summary (manifest overwrite control)
+# Proposed changes summary (manifest overwrite control)
 
 Problem observed
+
 - Dynamic task manifests overwrite shared baseline files (pyproject.toml, src/app/__init__.py, src/app/__main__.py, tests/test_smoke.py).
 - Last task wins, which can hide earlier task output and produce inconsistent results.
 
 Proposed options
+
 1) Pipeline-level filtering (simplest)
    - Before applying manifests, drop entries that target baseline files.
    - Keep the skeleton as the single source of truth for those files.
@@ -21,9 +23,11 @@ Proposed options
    - Impact: highest isolation and inspectability; requires a merge policy.
 
 Recommendation (current state)
+
 - Option 1 plus prompt tweak to tell agents not to emit baseline files.
 - Revisit if/when tasks should own entrypoints or packaging.
 
 Notes on future work
+
 - Today the pipeline produces a runnable demo scaffold; it does not merge multiple task outputs into a cohesive app.
 - If the goal shifts to generating a real app directly from spec.md, consider adding a merge phase or a single "owner" task for baseline files.

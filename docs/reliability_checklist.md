@@ -1,9 +1,11 @@
-Reliability checklist (core pipeline)
+# Reliability checklist (core pipeline)
 
 Goal
+
 - The pipeline should be predictable: same inputs -> same artifact structure, failures are explicit, and provenance is complete.
 
 Checklist
+
 1) Deterministic outputs
    - Enforce a single owner for baseline files (pyproject.toml, src/app/__init__.py, src/app/__main__.py, tests/test_smoke.py).
    - Avoid last-writer wins; log when a manifest attempts to overwrite baseline files.
@@ -30,5 +32,6 @@ Checklist
    - Snapshot expected artifact structure to detect regressions.
 
 Notes
+
 - This list is a stability gate for future artifact lineage work (visual tracing, diffing, etc.).
 - If the pipeline violates any of the above, pause traceability features until fixed.
