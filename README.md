@@ -21,7 +21,7 @@ It implements a phase-gated workflow:
 
 - [Master Plan & Future Directions](docs/plan.md)
 - [Current Todo List](docs/TODO.md)
-- [Proposed Changes Summary](docs/proposed_changes_summary.txt)
+- [Proposed Changes Summary](docs/proposed_changes_summary.md)
 - [Reliability Checklist](docs/reliability_checklist.md)
 - [Outputs](docs/outputs.md)
 - [Troubleshooting](docs/troubleshooting.md)
