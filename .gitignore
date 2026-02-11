@@ -12,3 +12,4 @@ __pycache__/
 .specstory/
 artifacts/
 /.markdownlint.json
+/pyproject.toml
