@@ -7,17 +7,17 @@ from typing import Any, Dict
 
 from crewai import Agent, Crew, Process, Task
 
-from multi_agent_engineering.models.build_plan import BuildPlan
-from multi_agent_engineering.models.file_manifest import FileManifest
-from multi_agent_engineering.orchestration.artifact_store import (
+from models.build_plan import BuildPlan
+from models.file_manifest import FileManifest
+from orchestration.artifact_store import (
     RunArtifacts,
     append_callback,
     ensure_callbacks_log,
     read_json,
     write_json,
 )
-from multi_agent_engineering.orchestration.manifest_applier import apply_manifest
-from multi_agent_engineering.orchestration.skeleton import ensure_python_skeleton
+from orchestration.manifest_applier import apply_manifest
+from orchestration.skeleton import ensure_python_skeleton
 
 
 def _norm_agent_token(s: str) -> str:

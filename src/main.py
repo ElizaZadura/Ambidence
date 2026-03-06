@@ -13,8 +13,8 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 # interpolate any tasks and agents information
 
 def _project_root() -> Path:
-    # main.py lives at: <project>/src/multi_agent_engineering/main.py
-    from multi_agent_engineering.orchestration.artifact_store import project_root_from_src_file
+    # main.py lives at: <project>/src/main.py
+    from orchestration.artifact_store import project_root_from_src_file
     return project_root_from_src_file(__file__)
 
 
@@ -87,7 +87,7 @@ def _prepare_run_context(
     spec_path: Path | None,
     trigger_payload: dict | None = None,
 ) -> tuple:
-    from multi_agent_engineering.orchestration.artifact_store import (
+    from orchestration.artifact_store import (
         ensure_callbacks_log,
         init_run_artifacts,
         new_run_id,
@@ -123,8 +123,8 @@ def run():
     spec_path = _resolve_spec_path()
     spec_text = spec_path.read_text(encoding="utf-8")
 
-    from multi_agent_engineering.crew import MultiAgentEngineering
-    from multi_agent_engineering.orchestration.pipeline import run_full_pipeline
+    from crew import MultiAgentEngineering
+    from orchestration.pipeline import run_full_pipeline
 
     run_artifacts, inputs = _prepare_run_context(
         root=root, spec_text=spec_text, spec_path=spec_path
@@ -150,7 +150,7 @@ def train():
     spec_path = _resolve_spec_path()
     spec_text = spec_path.read_text(encoding="utf-8")
 
-    from multi_agent_engineering.crew import MultiAgentEngineering
+    from crew import MultiAgentEngineering
 
     _, inputs = _prepare_run_context(root=root, spec_text=spec_text, spec_path=spec_path)
     try:
@@ -165,7 +165,7 @@ def replay():
     """
     root = _project_root()
     _load_dotenv(root / ".env")
-    from multi_agent_engineering.crew import MultiAgentEngineering
+    from crew import MultiAgentEngineering
     try:
         MultiAgentEngineering().crew().replay(task_id=sys.argv[1])
 
@@ -182,7 +182,7 @@ def test():
     spec_path = _resolve_spec_path()
     spec_text = spec_path.read_text(encoding="utf-8")
 
-    from multi_agent_engineering.crew import MultiAgentEngineering
+    from crew import MultiAgentEngineering
 
     _, inputs = _prepare_run_context(root=root, spec_text=spec_text, spec_path=spec_path)
 
@@ -215,7 +215,7 @@ def run_with_trigger():
     if spec_text is None and spec_path:
         spec_text = Path(spec_path).expanduser().read_text(encoding="utf-8")
 
-    from multi_agent_engineering.crew import MultiAgentEngineering
+    from crew import MultiAgentEngineering
 
     _, inputs = _prepare_run_context(
         root=root,

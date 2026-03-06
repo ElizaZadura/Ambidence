@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import re
 from pathlib import Path
 
-from multi_agent_engineering.models.file_manifest import FileManifest
+from models.file_manifest import FileManifest
 
 
 

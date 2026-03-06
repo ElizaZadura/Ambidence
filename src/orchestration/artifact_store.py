@@ -15,8 +15,8 @@ class RunArtifacts:
 
 
 def project_root_from_src_file(src_file: str) -> Path:
-    # src_file: <project>/src/multi_agent_engineering/<file>.py
-    return Path(src_file).resolve().parents[2]
+    # src_file: <project>/src/<file>.py
+    return Path(src_file).resolve().parents[1]
 
 
 def new_run_id() -> str:

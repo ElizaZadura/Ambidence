@@ -4,9 +4,9 @@ from crewai import Agent, Crew, Process, Task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai.project import CrewBase, agent, crew, task
 
-from multi_agent_engineering.models.build_plan import BuildPlan
-from multi_agent_engineering.models.design_pack import DesignPack
-from multi_agent_engineering.models.spec_pack import SpecPack
+from models.build_plan import BuildPlan
+from models.design_pack import DesignPack
+from models.spec_pack import SpecPack
 
 
 @CrewBase
