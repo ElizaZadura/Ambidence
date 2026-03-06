@@ -14,9 +14,19 @@ class RunArtifacts:
     generated_app_dir: Path
 
 
+_MARKERS = ("pyproject.toml", ".git")
+
+
 def project_root_from_src_file(src_file: str) -> Path:
-    # src_file: <project>/src/<file>.py
-    return Path(src_file).resolve().parents[1]
+    """Walk up from *src_file* until we find a project-root marker."""
+    current = Path(src_file).resolve().parent
+    for parent in (current, *current.parents):
+        if any((parent / m).exists() for m in _MARKERS):
+            return parent
+    raise RuntimeError(
+        f"Could not locate project root from {src_file} "
+        f"(looked for {_MARKERS})"
+    )
 
 
 def new_run_id() -> str:

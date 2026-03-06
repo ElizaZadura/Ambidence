@@ -49,6 +49,8 @@ plan_execution:
     Constraints:
     - planned_tasks MUST contain at most 3 tasks
     - each planned task MUST include: task_id, owner_agent, description, acceptance_criteria, expected_deliverables
+    - task_id MUST use the format "task-1", "task-2", "task-3" (sequential, hyphenated).
+      Do NOT use descriptive names like "backend_module" or "create_services".
     - owner_agent MUST be one of these agent IDs exactly:
       - engineering_lead
       - core_domain_engineer

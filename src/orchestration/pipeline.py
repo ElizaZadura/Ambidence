@@ -167,6 +167,7 @@ def run_dynamic_tasks(
                 "  - tests/test_smoke.py  (unittest; python -m unittest)\n\n"
                 "IMPORTANT OUTPUT FORMAT:\n"
                 "- Output JSON ONLY matching the FileManifest schema exactly.\n"
+                f"- The \"task_id\" field MUST be exactly: \"{planned.task_id}\"\n"
                 "- file contents are text; use content_mode=\"literal\" unless you include triple-backtick fenced code.\n"
                 "- Only set content_mode=\"fenced_code\" if content actually includes a fenced code block.\n"
                 "- Paths must be relative to generated_app/ (you may omit the 'generated_app/' prefix).\n"
@@ -186,9 +187,12 @@ def run_dynamic_tasks(
             manifest_data = read_json(manifest_path)
             manifest = FileManifest.model_validate(manifest_data)
             if manifest.task_id != planned.task_id:
-                raise ValueError(
-                    f"Manifest task_id {manifest.task_id!r} does not match planned task_id {planned.task_id!r}"
+                import logging
+                logging.getLogger(__name__).warning(
+                    "Manifest task_id %r differs from planned %r — normalizing.",
+                    manifest.task_id, planned.task_id,
                 )
+                manifest.task_id = planned.task_id
             manifests.append(manifest)
 
             append_callback(
@@ -274,6 +278,21 @@ def run_full_pipeline(
     skeleton_written = ensure_python_skeleton(run_artifacts.generated_app_dir)
     written.extend([p.as_posix() for p in skeleton_written])
 
+    # Post-run analysis (non-blocking).
+    analysis_highlights: Dict[str, Any] = {}
+    try:
+        from orchestration.run_analysis import analyze_run
+        analysis = analyze_run(run_artifacts)
+        analysis_highlights = {
+            "total_passed": analysis.get("total_passed", 0),
+            "total_failed": analysis.get("total_failed", 0),
+        }
+    except Exception:
+        import logging
+        logging.getLogger(__name__).warning(
+            "Run analysis failed — continuing without it.", exc_info=True
+        )
+
     summary = {
         "run_id": run_id,
         "started_at": started_at,
@@ -287,6 +306,7 @@ def run_full_pipeline(
         "dynamic_tasks": task_results,
         "written_files": sorted(set(written)),
         "warnings": apply_warnings,
+        "analysis": analysis_highlights,
     }
     write_json(run_artifacts.artifacts_dir / "run_summary.json", summary)
     return summary
