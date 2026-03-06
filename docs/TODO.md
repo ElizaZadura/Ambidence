@@ -32,6 +32,21 @@ Steps taken after extracting this project from the parent monorepo:
 If stricter enforcement is desired later, consider a Pydantic validator on
 `PlannedTask.task_id` with a regex like `^task-\d+$`.
 
+5. **Added automated post-run analysis** (`src/orchestration/run_analysis.py`).
+   - Runs automatically at the end of every pipeline run (non-blocking).
+   - **Spec compliance**: parses `spec_pack.json` requirements/acceptance criteria,
+     keyword-matches against generated code (heuristic — catches broad gaps).
+   - **Design contract adherence**: verifies `design_pack.json` data model names
+     and fields appear in generated code (structural — caught missing `status`
+     and `created_timestamp` fields on the `Task` model).
+   - **Code quality**: AST-based duplicate symbol detection across files, dead file
+     detection (excludes test dirs), syntax validation on all `.py` files.
+   - **Runnability**: runs `--help`, `--demo`, and `unittest discover` against
+     the generated app, records exit codes.
+   - Outputs `run_analysis.md` (human-readable with manual notes section) and
+     `run_analysis.json` (structured, for future cross-run comparison).
+   - Pass/fail counts added to `run_summary.json` under `"analysis"` key.
+
 ---
 
 ## Output shape / runnable skeleton
